@@ -1,0 +1,201 @@
+= kwrk
+:toc: left
+:sectnums:
+:source-highlighter: rouge
+
+// :source-highlighter: highlight.js
+// :plantuml: http://localhost:8080/plantuml
+// :plantuml-fetch-diagram: true
+// :plantuml-size-limit: 8192
+// :plantuml: plantuml.com/plantuml
+// :diagram-server-url: https://kroki.io/
+// :diagram-server-type: kroki_io
+
+Filename::
+  kwrk_config.json
+
+== Actions
+
+=== Configuration
+
+[%header,cols="1a,4a"]
+|===
+| id | value
+| *description*
+| kwrk
+| *output_filename*
+| kwrk_output.json
+| *report_filename*
+| kwrk_report.html
+| *user_class*
+| KwrkHttpUser
+| *user_params*
+|
+[%header,cols="1a,3a"]
+!===
+! id ! value 
+! *url* ! http://localhost:8080/purchase_orders/random
+! *httpVersion* ! HTTP_1_1
+! *httpHeader* ! User-Agent: kwrk
+! *connectTimeoutMillis* ! 1000
+! *readTimeoutMillis* ! 10000
+!===
+| *user_actions*
+|
+[%header,cols="2a,2a,4a"]
+!===
+! id ! value ! description
+! *1* ! GET:url! 
+!===
+|===
+
+== Contexts
+
+=== Context-1
+
+[%header,cols="1a,2a"]
+|===
+| id | value 
+| *enabled* | True
+| *num_users*   | 8
+| *num_threads* | 8
+|===
+
+== Benchmarks
+
+=== onStart
+
+[%header,cols="1a,2a"]
+|===
+| id | value
+| *enabled* | True
+| *aps_rate* | 0.0
+| *worker_thread_queue_size* | 0
+| *scenario_actions* 
+| 
+[%header,cols="1a,2a"]
+!===
+! id ! weight 
+! 0
+! - 
+!===
+|===
+
+=== HTTP
+
+[%header,cols="1a,2a"]
+|===
+| id | value
+| *enabled* | True
+| *aps_rate* | 1000.0
+| *aps_rate_step_change* | 0.0
+| *aps_rate_step_count* | 1
+| *worker_thread_queue_size* | 0
+| *scenario_actions* 
+| 
+[%header,cols="1a,2a"]
+!===
+! id ! weight 
+! 1
+! - 
+!===
+| *time* 
+| 
+[%noheader,cols="2a,1a"]
+!===
+! *pre_warmup_duration*
+! 5 seconds
+! *warmup_duration*
+! 5 seconds
+! *benchmark_duration*
+! 30 seconds
+! *benchmark_iterations*
+! 3
+!===
+|===
+
+=== onStop
+
+[%header,cols="1a,2a"]
+|===
+| id | value
+| *enabled* | False
+| *aps_rate* | 0.0
+| *worker_thread_queue_size* | 0
+| *scenario_actions* 
+| 
+[%header,cols="1a,2a"]
+!===
+! id ! weight 
+! 100
+! - 
+!===
+|===
+
+== JSON Configuration File
+
+[source,json,linenums]
+----
+{
+    "actions": {
+        "description": "kwrk", 
+        "output_filename": "kwrk_output.json", 
+        "report_filename": "kwrk_report.html", 
+        "user_class": "KwrkHttpUser", 
+        "user_params": {
+            "url": "http://localhost:8080/purchase_orders/random", 
+            "httpVersion": "HTTP_1_1", 
+            "httpHeader": "User-Agent: kwrk", 
+            "connectTimeoutMillis": 1000, 
+            "readTimeoutMillis": 10000
+        }, 
+        "user_actions": {
+            "1": "GET:url"
+        }
+    }, 
+    "benchmarks": {
+        "onStart": {
+            "save_stats": false, 
+            "scenario_actions": [
+                {
+                    "id": 0
+                }
+            ]
+        }, 
+        "HTTP": {
+            "enabled": true, 
+            "aps_rate": 1000.0, 
+            "aps_rate_step_change": 0.0, 
+            "aps_rate_step_count": 1, 
+            "worker_thread_queue_size": 0, 
+            "scenario_actions": [
+                {
+                    "id": 1
+                }
+            ], 
+            "time": {
+                "pre_warmup_duration": 5, 
+                "warmup_duration": 5, 
+                "benchmark_duration": 30, 
+                "benchmark_iterations": 3
+            }
+        }, 
+        "onStop": {
+            "enabled": false, 
+            "save_stats": false, 
+            "scenario_actions": [
+                {
+                    "id": 100
+                }
+            ]
+        }
+    }, 
+    "contexts": {
+        "Context-1": {
+            "enabled": true, 
+            "num_users": 8, 
+            "num_threads": 8
+        }
+    }
+}
+----

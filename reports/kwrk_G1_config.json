@@ -1,0 +1,56 @@
+{
+    "actions": {
+        "description": "kwrk",
+        "output_filename": "kwrk_G1_output.json",
+        "report_filename": "kwrk_G1_report.html",
+        "user_class": "KwrkHttpUser",
+        "user_params": {
+            "url": "http://localhost:8080/purchase_orders/random",
+            "httpVersion": "HTTP_1_1",
+            "httpHeader": "User-Agent: kwrk",
+            "connectTimeoutMillis": 1000,
+            "readTimeoutMillis": 10000,
+            "jsonBody": "{\"title\": \"foo\", \"body\": \"bar\", \"userId\": 1}"
+        },
+        "user_actions": {
+            "1": "GET:url",
+            "2": "POST:url"
+        }
+    },
+    "benchmarks": {
+        "onStart": {
+            "save_stats": false,
+            "scenario_actions": [ {"id": 0} ]
+        },
+         "HTTP": {
+            "enabled": true,
+            "aps_rate": 2500.0,
+            "aps_rate_step_change": 0.0,
+            "aps_rate_step_count" : 1,
+            "worker_thread_queue_size": 0,
+            "scenario_actions": [
+                {
+                    "id": 1
+                }
+            ],
+            "time": {
+                "pre_warmup_duration": 30,
+                "warmup_duration": 30,
+                "benchmark_duration": 30,
+                "benchmark_iterations": 4
+            }
+        },
+        "onStop": {
+            "enabled": false,
+            "save_stats": false,
+            "scenario_actions": [ {"id": 100} ]
+        }
+    },
+    "contexts": {
+        "Context-1": {
+            "enabled": true,
+            "num_users": 50,
+            "num_threads": 50
+        }
+    }
+}
