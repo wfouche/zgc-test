@@ -95,6 +95,7 @@ for i in "${!GCS[@]}"; do
     java_version="${JAVA_VERSIONS[i]}"
     echo "Processing GC: $gc, Java Version: $java_version"
 
+    sdk install java $java_version
     sdk use java $java_version
     export RANDOM_COUNT=200
     numactl --physcpubind=0-3 java -XX:+AlwaysPreTouch -XX:ActiveProcessorCount=4 -Xmx$(echo $MEM)m -Xms$(echo $MEM)m -XX:+Use$(echo $gc)GC -XX:StartFlightRecording:filename=$(echo $BENCH)_$(echo $gc)_$(echo $java_version)_$(echo $QPS).jfr,dumponexit=true,maxsize=500MB,settings=default.jfc -jar target/quarkus-app/quarkus-run.jar &
