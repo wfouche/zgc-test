@@ -107,7 +107,7 @@ for i in "${!GCS[@]}"; do
 #    echo "GET http://localhost:8080/purchase_orders/$BENCH" | ./vegeta attack -duration=$(echo $DURATION)s -rate $(echo $QPS) -max-connections 10 -workers 200 | tee $(echo $BENCH)_$(echo $gc)_$(echo $java_version)_$(echo $QPS).bin | ./vegeta report
 #    date
 
-    export JBANG_JAVA_OPTIONS="-Xms1g -Xmx1g -XX:+UseZGC -XX:+ZGenerational"
+    export JBANG_JAVA_OPTIONS="-Xms1g -Xmx1g -XX:+UseZGC"
     jbang run kwrk-dev@wfouche --name=$(echo $gc) --method=GET --url=http://localhost:8080/purchase_orders/random --warmup=30 --duration=30 --iterations=4 --threads=50 --rate=2500.0
 
     jcmd $(jps | grep quarkus-run.jar | cut -d' ' -f1) JFR.dump name=1
