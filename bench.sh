@@ -82,10 +82,10 @@ echo "  Memory: $MEMm"
 echo "  Queries/sec: $QPS"
 
 GCS=("G1" "Z" "Parallel" "Z")
-JAVA_VERSIONS=("24.0.2-open" "24.0.2-open" "24.0.2-open" "21-tem")
+JAVA_VERSIONS=("24.0.2-open" "24.0.2-open" "24.0.2-open" "21.0.8-tem")
 
 GCS=("G1" "Z")
-JAVA_VERSIONS=("25.ea.34-open" "25.ea.34-open")
+JAVA_VERSIONS=("25.0.1-open" "25.0.1-open")
 
 # GCS=("G1" "Z")
 # JAVA_VERSIONS=("24.0.2-open" "24.0.2-open")
