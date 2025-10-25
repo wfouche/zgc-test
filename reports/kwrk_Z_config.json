@@ -24,7 +24,7 @@
         },
          "HTTP": {
             "enabled": true,
-            "aps_rate": 2500.0,
+            "aps_rate": 10000.0,
             "aps_rate_step_change": 0.0,
             "aps_rate_step_count" : 1,
             "worker_thread_queue_size": 0,
@@ -34,10 +34,10 @@
                 }
             ],
             "time": {
-                "pre_warmup_duration": 30,
-                "warmup_duration": 30,
+                "pre_warmup_duration": 60,
+                "warmup_duration": 60,
                 "benchmark_duration": 30,
-                "benchmark_iterations": 4
+                "benchmark_iterations": 10
             }
         },
         "onStop": {
