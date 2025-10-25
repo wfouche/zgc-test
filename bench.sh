@@ -98,7 +98,8 @@ for i in "${!GCS[@]}"; do
     sdk install java $java_version
     sdk use java $java_version
     export RANDOM_COUNT=200
-    numactl --physcpubind=0-3 java -XX:+AlwaysPreTouch -XX:ActiveProcessorCount=4 -Xmx$(echo $MEM)m -Xms$(echo $MEM)m -XX:+Use$(echo $gc)GC -XX:StartFlightRecording:filename=$(echo $BENCH)_$(echo $gc)_$(echo $java_version)_$(echo $QPS).jfr,dumponexit=true,maxsize=500MB,settings=default.jfc -jar target/quarkus-app/quarkus-run.jar &
+    #numactl --physcpubind=0-3 java -XX:+AlwaysPreTouch -XX:ActiveProcessorCount=4 -Xmx$(echo $MEM)m -Xms$(echo $MEM)m -XX:+Use$(echo $gc)GC -XX:StartFlightRecording:filename=$(echo $BENCH)_$(echo $gc)_$(echo $java_version)_$(echo $QPS).jfr,dumponexit=true,maxsize=500MB,settings=default.jfc -jar target/quarkus-app/quarkus-run.jar &
+    java -XX:+AlwaysPreTouch -Xmx$(echo $MEM)m -Xms$(echo $MEM)m -XX:+Use$(echo $gc)GC -jar target/quarkus-app/quarkus-run.jar &
     sleep 10
 
     # ../../oha -z $(echo $DURATION)s -c 200 --http2 -q $(echo $QPS) --latency-correction --output $(echo $BENCH)_$(echo $gc)_$(echo $java_version)_$(echo $QPS).csv --output-format csv http://localhost:8080/purchase_orders/$(echo $BENCH)
@@ -108,7 +109,7 @@ for i in "${!GCS[@]}"; do
 #    date
 
     export JBANG_JAVA_OPTIONS="-Xms1g -Xmx1g -XX:+UseZGC"
-    jbang run kwrk-dev@wfouche --name=$(echo $gc) --method=GET --url=http://localhost:8080/purchase_orders/random --warmup=30 --duration=30 --iterations=4 --threads=50 --rate=2500.0
+    jbang run kwrk-dev@wfouche --name=$(echo $gc) --method=GET --url=http://localhost:8080/purchase_orders/random --warmup=60 --duration=30 --iterations=10 --threads=50 --rate=$(echo $QPS)
 
     jcmd $(jps | grep quarkus-run.jar | cut -d' ' -f1) JFR.dump name=1
     kill -9 $(jps | grep quarkus-run.jar | cut -d' ' -f1)
