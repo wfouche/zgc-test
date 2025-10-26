@@ -109,7 +109,7 @@ for i in "${!GCS[@]}"; do
 #    date
 
     export JBANG_JAVA_OPTIONS="-Xms1g -Xmx1g -XX:+UseZGC"
-    jbang run kwrk-dev@wfouche --name=$(echo $gc) --method=GET --url=http://localhost:8080/purchase_orders/random --warmup=60 --duration=30 --iterations=10 --threads=50 --rate=$(echo $QPS)
+    jbang run kwrk@wfouche --name=$(echo $gc) --method=GET --url=http://localhost:8080/purchase_orders/random --warmup=60 --duration=30 --iterations=10 --threads=4 --rate=$(echo $QPS)
 
     jcmd $(jps | grep quarkus-run.jar | cut -d' ' -f1) JFR.dump name=1
     kill -9 $(jps | grep quarkus-run.jar | cut -d' ' -f1)
